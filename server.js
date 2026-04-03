@@ -1,6 +1,7 @@
 import express from 'express';
 import logger from './middleware/logger.js';
 import path from 'path';
+import url from 'url';
 import posts from './routes/posts.js';
 import errorHandler from './middleware/error.js';
 import notFoundHandler from './middleware/notFound.js'
@@ -13,6 +14,10 @@ app.use(express.json()) // this will enable to submit raw json
 app.use(express.urlencoded({extended: false})); // this will enable to submit to urlencoded json
 
 app.use(logger); // logger middleware
+
+// Static path setup
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__dirname,"public")))
 
 app.use('/api/posts',posts);
 
